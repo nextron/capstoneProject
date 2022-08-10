@@ -23,7 +23,7 @@ const postScehma = new mongoose.Schema({
         likes: [String],
         dislikes: [String],
         postComments: [
-            { userId: String, commment: String }
+            { userId: String, userName: String, comment: String }
         ],
     }
 })

@@ -35,9 +35,9 @@ const likePost = async (req, res) => {
         //fetch the post 
         const post = await Post.findOne({ _id: req.body.postId });
         //checking if user has disliked the post or not
-        if (post.postMetaData.dislikes.indexOf(req.body.userId) > 0) {
+        if (post.postMetaData.dislikes.indexOf(req.body.userId) != -1) {
             post.postMetaData.dislikes = post.postMetaData.dislikes.filter((item) => {
-                return item !== value
+                return item != req.body.userId;
             })
         }
         //Liking the post if not liked already
@@ -45,6 +45,7 @@ const likePost = async (req, res) => {
             post.postMetaData.likes.push(req.body.userId);
         }
         post.save();
+        // res.status(200).send(post.postMetaData.likes);
         res.status(200).send({ msg: "Post Liked" });
     } catch (err) {
         res.status(500).send({ err: err.message });
@@ -57,9 +58,9 @@ const dislikePost = async (req, res) => {
         //fetch the post 
         const post = await Post.findOne({ _id: req.body.postId });
         //checking if user has liked the post or not
-        if (post.postMetaData.likes.indexOf(req.body.userId) > 0) {
-            post.postMetaData.likes = post.postMetaData.dislikes.filter((item) => {
-                return item !== value
+        if (post.postMetaData.likes.indexOf(req.body.userId) != -1) {
+            post.postMetaData.likes = post.postMetaData.likes.filter((item) => {
+                return item != req.body.userId;
             })
         }
         //Liking the post if not liked already
@@ -75,7 +76,19 @@ const dislikePost = async (req, res) => {
 
 //Add a comment to Post 
 const commentPost = async (req, res) => {
-
+    try {
+        //fetch the post 
+        const post = await Post.findOne({ _id: req.body.postId });
+        //On successfull post fetch Below code will add a comment to the post
+        const commnetObj = { userId: req.body.userId, userName: req.body.userName, comment: req.body.comment };
+        // { userId: String, commment: String }
+        // console.log(commnetObj);
+        post.postMetaData.postComments.push(commnetObj);
+        post.save();
+        res.status(200).send({ msg: "Comment added to the post" });
+    } catch (err) {
+        res.status(500).send({ err: err.message });
+    }
 }
 
 export { getAllPosts, addPost, likePost, dislikePost, commentPost }
