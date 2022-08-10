@@ -13,7 +13,7 @@ const register = async (req, res) => {
         let hashedPassword = await bcrypt.hash(req.body.user["password"], 10);
         user["password"] = hashedPassword;
         let savedUser = await User.create(user);
-        res.status(201).send(savedUser);
+        res.status(200).send(savedUser);
     } catch (err) {
         res.status(500).send({ err: err.message });
     }
