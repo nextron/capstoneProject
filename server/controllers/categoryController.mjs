@@ -4,7 +4,7 @@ import Category from "../modals/Category.mjs";
 const getAllCategories = async (req, res) => {
     try {
         const categories = await Category.find({});
-        res.status(200).send(categories);
+        res.status(200).send({ categories });
     } catch (err) {
         res.status(500).send({ err: err.message });
     }
@@ -15,7 +15,7 @@ const addCategory = async (req, res) => {
     try {
         // res.status(200).send(req.body["category"]);
         const category = await Category.create(req.body["category"]);
-        res.status(200).send(category);
+        res.status(200).send({ msg: "Category Added" });
     } catch (err) {
         res.status(500).send({ err: err.message });
     }

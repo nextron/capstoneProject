@@ -8,12 +8,12 @@ const { sign, verify } = jwt;
 //Register function
 const register = async (req, res) => {
     try {
-        let user = req.body.user;
+        const user = req.body.user;
         //console.log(req.body.user["password"]);
-        let hashedPassword = await bcrypt.hash(req.body.user["password"], 10);
+        const hashedPassword = await bcrypt.hash(req.body.user["password"], 10);
         user["password"] = hashedPassword;
-        let savedUser = await User.create(user);
-        res.status(200).send(savedUser);
+        const savedUser = await User.create(user);
+        res.status(200).send({ msg: "User Created" });
     } catch (err) {
         res.status(500).send({ err: err.message });
     }
@@ -22,7 +22,7 @@ const register = async (req, res) => {
 //Login Function
 const login = async (req, res) => {
     try {
-        let user = await User.findOne({ emailId: req.body.user["emailId"] });
+        const user = await User.findOne({ emailId: req.body.user["emailId"] });
         if (user == null) {
             res.status(404).send({ msg: "User not found." });
         } else {
