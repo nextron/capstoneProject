@@ -1,8 +1,4 @@
-import 'dotenv/config';
-import jwt from 'jsonwebtoken';
 import Post from '../modals/Post.mjs';
-//JSON web token signing and verification variables
-const { sign, verify } = jwt;
 
 //fetch all the posts
 const getAllPosts = async (req, res) => {
